@@ -25,8 +25,8 @@ jobs:
     - name: Build container image
       run: docker build -t ${{ secrets.REGISTRY_NAME }}/hospital-app-backend:${{ github.run_number }} .
     
-    - name: Log in to Docker Registry using stdin
-      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.REGISTRY_NAME }} --password-stdin
+    - name: Log in to Docker Registry with short-lived credentials
+      run: docker login -u ${{ secrets.REGISTRY_NAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
     
     - name: Push image to Docker Registry
       run: docker push ${{ secrets.REGISTRY_NAME }}/hospital-app-backend:${{ github.run_number }}
